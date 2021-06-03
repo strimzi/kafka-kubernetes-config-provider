@@ -7,8 +7,9 @@
 # Kubernetes Configuration Provider for Apache Kafka
 
 Apache Kafka supports pluggable configuration providers which can load configuration data from external sources.
-This configuration provider can be used to load data from Kubernetes Secrets and Config Maps.
-It can be used in all Kafka components.
+The configuration providers in this repo can be used to load data from Kubernetes Secrets and Config Maps.
+It can be used in all Kafka components and does not depend on the other Strimzi components. 
+So you could, for example, use it with your producer or consumer applications even if you don't use the Strimzi operators to provide your Kafka cluster.
 One of the example use-cases is to load certificates or JAAS configuration from Kubernetes Secrets.
 
 ## Adding the Kubernetes Configuration Provider to Apache Kafka clients

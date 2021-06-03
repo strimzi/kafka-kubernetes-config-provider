@@ -81,4 +81,14 @@ By default, it will try to automatically find the available configuration - for 
 ### RBAC rights
 
 The Kubernetes account used by the Kubernetes Configuration Provider needs to have access to the Config Maps or Secrets.
+The only RBAC rights it needs is the `get` access rights on a given resource.
+For example:
+
+```yaml
+- apiGroups: [""]
+  resources: ["secrets"]
+  resourceNames: ["my-user", "my-cluster-cluster-ca-cert"]
+  verbs: ["get"]
+```
+
 It does not need any other access rights.

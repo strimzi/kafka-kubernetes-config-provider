@@ -24,7 +24,7 @@ public final class KubernetesConfigMapConfigProvider extends AbstractKubernetesC
     }
 
     @Override
-    Map<String, String> valuesFromResource(ConfigMap resource) {
+    protected Map<String, String> valuesFromResource(ConfigMap resource) {
         return resource.getData();
     }
 }

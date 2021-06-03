@@ -46,9 +46,9 @@ abstract class AbstractKubernetesConfigProvider<T extends HasMetadata, L extends
     }
 
     // Abstract methods
-    abstract MixedOperation<T, L, R> operator();
+    protected abstract MixedOperation<T, L, R> operator();
 
-    abstract Map<String, String> valuesFromResource(T resource);
+    protected abstract Map<String, String> valuesFromResource(T resource);
 
     // Methods from Kafka ConfigProvider
     @Override

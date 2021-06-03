@@ -27,7 +27,7 @@ public final class KubernetesSecretConfigProvider extends AbstractKubernetesConf
     }
 
     @Override
-    Map<String, String> valuesFromResource(Secret resource) {
+    protected Map<String, String> valuesFromResource(Secret resource) {
         Map<String, String> encodedValues = resource.getData();
         Map<String, String> values = new HashMap<>(encodedValues.size());
 

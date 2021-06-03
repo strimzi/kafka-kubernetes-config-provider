@@ -22,10 +22,17 @@ public class KubernetesResourceIdentifierTest {
 
     @Test
     public void testInvalidResourceIdentifierParsing()    {
-        assertThrows(ConfigException.class, () -> KubernetesResourceIdentifier.fromConfigString("my-namespace"));
-        assertThrows(ConfigException.class, () -> KubernetesResourceIdentifier.fromConfigString("my-namespace//my-resource"));
-        assertThrows(ConfigException.class, () -> KubernetesResourceIdentifier.fromConfigString("my-namespace/"));
-        assertThrows(ConfigException.class, () -> KubernetesResourceIdentifier.fromConfigString("my-namespace/my-resource/my-field"));
+        ConfigException e = assertThrows(ConfigException.class, () -> KubernetesResourceIdentifier.fromConfigString("my-namespace"));
+        assertThat(e.getMessage(), is("Invalid path my-namespace. It has to be in format <namespace>/<secret>."));
+
+        e = assertThrows(ConfigException.class, () -> KubernetesResourceIdentifier.fromConfigString("my-namespace//my-resource"));
+        assertThat(e.getMessage(), is("Invalid path my-namespace//my-resource. It has to be in format <namespace>/<secret>."));
+
+        e = assertThrows(ConfigException.class, () -> KubernetesResourceIdentifier.fromConfigString("my-namespace/"));
+        assertThat(e.getMessage(), is("Invalid path my-namespace/. It has to be in format <namespace>/<secret>."));
+
+        e = assertThrows(ConfigException.class, () -> KubernetesResourceIdentifier.fromConfigString("my-namespace/my-resource/my-field"));
+        assertThat(e.getMessage(), is("Invalid path my-namespace/my-resource/my-field. It has to be in format <namespace>/<secret>."));
     }
 
 }

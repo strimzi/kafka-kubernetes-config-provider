@@ -16,7 +16,7 @@ One of the example use-cases is to load certificates or JAAS configuration from 
 
 From Strimzi Kafka Operators release 0.24.0, the Kubernetes Configuration Provider is included in all the Kafka deployments.
 You can use it for example with Kafka Connect, Kafka Mirror Maker 1 or 2 and with Kafka Connect connectors.
-Following example shows how to use it with Kafka Connect and Connectors:
+The following example shows how to use it with Kafka Connect and Connectors:
 
 1) Deploy Kafka Connect and enable the Kubernetes Configuration Provider:
     ```yaml
@@ -107,7 +107,7 @@ For example:
 ## Adding the Kubernetes Configuration Provider to Apache Kafka server components
 
 You can also use the Kubernetes Configuration Provider with your own Apache Kafka deployments not managed by Strimzi. 
-To add Kubernetes Configuration Provider to your own Apache Kafka server distribution, you can download the ZIP or TAR.GZ files frm the GitHub release page and unpack it into Kafka's `libs` directory.
+To add the Kubernetes Configuration Provider to your own Apache Kafka server distribution, you can download the ZIP or TAR.GZ files frm the GitHub release page and unpack it into Kafka's `libs` directory.
 
 ## Using the configuration provider
 
@@ -146,11 +146,11 @@ For example:
 option=${secrets:my-namespace/my-secret:my-key}
 ```
 
-Following example shows how to use it in Kafka Consumer consuming from Apache Kafka cluster on Kubernetes using Strimzi:
+The following example shows how to use it in a Kafka Consumer consuming from Apache Kafka cluster on Kubernetes using Strimzi:
 
 1) Deploy your Kafka cluster with TLS authentication enabled
 2) Create KafkaUser resource using TLS authentication
-3) In your consumer properties, use following options to load the public key of the CA used by the Apache Kafka cluster and the user certificates for authentication
+3) In your consumer properties, use the following options to load the public key of the CA used by the Apache Kafka cluster and the user certificates for authentication
     ```properties
     config.providers=secrets,configmaps
     config.providers.secrets.class=io.strimzi.kafka.KubernetesSecretConfigProvider

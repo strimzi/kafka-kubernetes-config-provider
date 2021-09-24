@@ -34,5 +34,4 @@ public class KubernetesResourceIdentifierTest {
         e = assertThrows(ConfigException.class, () -> KubernetesResourceIdentifier.fromConfigString("my-namespace/my-resource/my-field"));
         assertThat(e.getMessage(), is("Invalid path my-namespace/my-resource/my-field. It has to be in format <namespace>/<secret>."));
     }
-
 }

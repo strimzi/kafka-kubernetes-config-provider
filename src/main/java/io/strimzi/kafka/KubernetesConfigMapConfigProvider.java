@@ -19,6 +19,7 @@ public final class KubernetesConfigMapConfigProvider extends AbstractKubernetesC
         super("ConfigMap");
     }
 
+    @Override
     protected MixedOperation<ConfigMap, ConfigMapList, Resource<ConfigMap>> operator()    {
         return client.configMaps();
     }

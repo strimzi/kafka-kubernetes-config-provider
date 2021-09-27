@@ -30,12 +30,6 @@
 
     <developers>
         <developer>
-            <name>Ulf Lilleengen</name>
-            <email>ulilleen@redhat.com</email>
-            <organization>Red Hat</organization>
-            <organizationUrl>https://www.redhat.com</organizationUrl>
-        </developer>
-        <developer>
             <name>Tom Bentley</name>
             <email>tbentley@redhat.com</email>
             <organization>Red Hat</organization>
@@ -90,7 +84,7 @@
         <sonatype.nexus.staging>1.6.3</sonatype.nexus.staging>
 
         <kafka.version>2.8.0</kafka.version>
-        <fabric8-kubernetes-client.version>5.4.0</fabric8-kubernetes-client.version>
+        <fabric8-kubernetes-client.version>5.8.0</fabric8-kubernetes-client.version>
 
         <junit5.version>5.7.2</junit5.version>
         <hamcrest.version>2.2</hamcrest.version>
@@ -135,23 +129,11 @@
                 </exclusion>
                 <exclusion>
                     <groupId>io.fabric8</groupId>
-                    <artifactId>kubernetes-model-apps</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.fabric8</groupId>
                     <artifactId>kubernetes-model-autoscaling</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>io.fabric8</groupId>
-                    <artifactId>kubernetes-model-batch</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.fabric8</groupId>
                     <artifactId>kubernetes-model-certificates</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>kubernetes-model-common</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>io.fabric8</groupId>
@@ -164,10 +146,6 @@
                 <exclusion>
                     <groupId>io.fabric8</groupId>
                     <artifactId>kubernetes-model-events</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>kubernetes-model-extensions</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>io.fabric8</groupId>

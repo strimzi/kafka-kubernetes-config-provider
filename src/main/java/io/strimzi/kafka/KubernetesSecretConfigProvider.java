@@ -22,6 +22,7 @@ public final class KubernetesSecretConfigProvider extends AbstractKubernetesConf
         super("Secret");
     }
 
+    @Override
     protected MixedOperation<Secret, SecretList, Resource<Secret>> operator()    {
         return client.secrets();
     }

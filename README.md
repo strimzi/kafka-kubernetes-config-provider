@@ -146,6 +146,13 @@ For example:
 option=${secrets:my-namespace/my-secret:my-key}
 ```
 
+Alternatively, you can also use the form `<RESOURCE-NAME>:<KEY>`.
+Where:
+* The `<RESOURCE-NAME>` is the name of the Secret or Config Map
+* The `<KEY>` is the key under which the configuration value is stored in the Secret or Config Map
+
+In this case, the current namespace of the Kubernetes client will be used.
+
 The following example shows how to use it in a Kafka Consumer consuming from Apache Kafka cluster on Kubernetes using Strimzi:
 
 1) Deploy your Kafka cluster with TLS authentication enabled

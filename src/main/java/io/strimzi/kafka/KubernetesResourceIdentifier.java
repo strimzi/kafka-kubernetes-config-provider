@@ -4,6 +4,7 @@
  */
 package io.strimzi.kafka;
 
+import io.fabric8.kubernetes.client.Client;
 import org.apache.kafka.common.config.ConfigException;
 
 /**
@@ -19,27 +20,36 @@ final class KubernetesResourceIdentifier {
     }
 
     /**
-     * Parses the path to the Kubernetes resource in the NAMESPACE/RESOURCE-NAME format. Throws Kafka ConfigException if
-     * it fails to parse the resource identifier.
+     * Parses the path to the Kubernetes resource in the NAMESPACE/RESOURCE-NAME format or RESOURCE-NAME for use with
+     * the default namespace. Throws Kafka ConfigException if it fails to parse the resource identifier.
      *
-     * @param path  The Kubernetes resource path
+     * @param client    Instance of the Kubernetes Client used to get the default namespace if needed
+     * @param path      The Kubernetes resource path
      *
-     * @return      Instance of the KubernetesResourceIdentifier class
+     * @return          Instance of the KubernetesResourceIdentifier class
      */
-    public static KubernetesResourceIdentifier fromConfigString(String path)    {
-        String[] pathSegments = path.split("/");
-
-        if (pathSegments.length != 2)   {
-            throw new ConfigException("Invalid path " + path + ". It has to be in format <namespace>/<secret>.");
+    public static KubernetesResourceIdentifier fromConfigString(Client client, String path)    {
+        if (!path.matches("([a-z0-9.-]+/)?[a-z0-9.-]+")) {
+            throw new ConfigException("Invalid path " + path + ". It has to be in format <namespace>/<secret> (or <secret> for default namespace).");
         }
 
-        return new KubernetesResourceIdentifier(pathSegments[0], pathSegments[1]);
+        String[] pathSegments = path.split("/");
+
+        if (pathSegments.length == 1)   {
+            return new KubernetesResourceIdentifier(client.getNamespace(), pathSegments[0]);
+        } else if (pathSegments.length == 2)    {
+            return new KubernetesResourceIdentifier(pathSegments[0], pathSegments[1]);
+        } else  {
+            // Should never happen really => the regex should capture all invalid
+            // But it handles the missing return error
+            throw new ConfigException("Invalid path " + path + ". It has to be in format <namespace>/<secret> (or <secret> for default namespace).");
+        }
     }
 
     /**
      * Returns the namespace of the resource
      *
-     * @return
+     * @return  Namespace of the resource
      */
     public String getNamespace() {
         return namespace;
@@ -48,7 +58,7 @@ final class KubernetesResourceIdentifier {
     /**
      * Returns the name of the resource
      *
-     * @return
+     * @return  Name of the resource
      */
     public String getName() {
         return name;

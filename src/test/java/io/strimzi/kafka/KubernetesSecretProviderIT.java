@@ -94,6 +94,18 @@ public class KubernetesSecretProviderIT {
     }
 
     @Test
+    public void testDefaultNamespace() {
+        ConfigData config = provider.get(RESOURCE_NAME);
+        Map<String, String> data = config.data();
+
+        assertThat(data.size(), is(4));
+        assertThat(data.get("test-key-1"), is("test-value-1"));
+        assertThat(data.get("test-key-2"), is("test-value-2"));
+        assertThat(data.get("test-key-3"), is("test-value-3"));
+        assertThat(data.get("test-key-4"), is("test-value-4"));
+    }
+
+    @Test
     public void testNonExistentSecret() {
         assertThrows(ConfigException.class, () -> provider.get(namespace + "/i-do-not-exist"));
         assertThrows(ConfigException.class, () -> provider.get("i-do-not-exist/i-do-not-exist-either"));

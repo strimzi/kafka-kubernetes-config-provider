@@ -108,7 +108,7 @@ abstract class AbstractKubernetesConfigProvider<T extends HasMetadata, L extends
      * @return      Resource retrieved from the Kubernetes cluster
      */
     protected T getResource(String path)   {
-        final KubernetesResourceIdentifier resourceIdentifier = KubernetesResourceIdentifier.fromConfigString(path);
+        final KubernetesResourceIdentifier resourceIdentifier = KubernetesResourceIdentifier.fromConfigString(client, path);
 
         LOG.info("Retrieving configuration from {} {} in namespace {}", kind, resourceIdentifier.getName(), resourceIdentifier.getNamespace());
 

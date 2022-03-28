@@ -4,9 +4,9 @@
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Twitter Follow](https://img.shields.io/twitter/follow/strimziio.svg?style=social&label=Follow&style=for-the-badge)](https://twitter.com/strimziio)
 
-# Kubernetes Configuration Provider for Apache Kafka
+# Kubernetes Configuration Provider for Apache Kafka®
 
-Apache Kafka supports pluggable configuration providers which can load configuration data from external sources.
+[Apache Kafka®](https://kafka.apache.org) supports pluggable configuration providers which can load configuration data from external sources.
 The configuration providers in this repo can be used to load data from Kubernetes Secrets and Config Maps.
 It can be used in all Kafka components and does not depend on the other Strimzi components. 
 So you could, for example, use it with your producer or consumer applications even if you don't use the Strimzi operators to provide your Kafka cluster.

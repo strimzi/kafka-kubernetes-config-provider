@@ -83,8 +83,8 @@
         <maven.gpg.version>1.6</maven.gpg.version>
         <sonatype.nexus.staging>1.6.3</sonatype.nexus.staging>
 
-        <kafka.version>3.1.0</kafka.version>
-        <fabric8-kubernetes-client.version>5.12.0</fabric8-kubernetes-client.version>
+        <kafka.version>3.2.1</kafka.version>
+        <fabric8-kubernetes-client.version>6.0.0</fabric8-kubernetes-client.version>
 
         <junit5.version>5.7.2</junit5.version>
         <hamcrest.version>2.2</hamcrest.version>

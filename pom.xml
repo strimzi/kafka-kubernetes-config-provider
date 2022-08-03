@@ -4,7 +4,7 @@
 
     <groupId>io.strimzi</groupId>
     <artifactId>kafka-kubernetes-config-provider</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <licenses>
 		<license>

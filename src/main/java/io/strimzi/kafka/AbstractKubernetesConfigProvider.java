@@ -6,11 +6,12 @@ package io.strimzi.kafka;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.KubernetesResourceList;
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import io.fabric8.kubernetes.client.KubernetesClientException;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 import io.fabric8.kubernetes.client.dsl.Resource;
+import io.fabric8.kubernetes.client.okhttp.OkHttpClientFactory;
 import org.apache.kafka.common.config.ConfigData;
 import org.apache.kafka.common.config.ConfigException;
 import org.apache.kafka.common.config.provider.ConfigProvider;
@@ -60,7 +61,9 @@ abstract class AbstractKubernetesConfigProvider<T extends HasMetadata, L extends
     @Override
     public void configure(Map<String, ?> map) {
         LOG.info("Configuring Kubernetes {} config provider", kind);
-        client = new DefaultKubernetesClient();
+        client = new KubernetesClientBuilder()
+            .withHttpClientFactory(new OkHttpClientFactory())
+            .build();
     }
 
     @Override

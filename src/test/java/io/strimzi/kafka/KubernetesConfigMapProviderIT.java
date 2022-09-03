@@ -6,8 +6,9 @@ package io.strimzi.kafka;
 
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClientBuilder;
+import io.fabric8.kubernetes.client.okhttp.OkHttpClientFactory;
 import org.apache.kafka.common.config.ConfigData;
 import org.apache.kafka.common.config.ConfigException;
 import org.junit.jupiter.api.AfterAll;
@@ -37,7 +38,9 @@ public class KubernetesConfigMapProviderIT {
         provider = new KubernetesConfigMapConfigProvider();
         provider.configure(emptyMap());
 
-        client = new DefaultKubernetesClient();
+        client = new KubernetesClientBuilder()
+            .withHttpClientFactory(new OkHttpClientFactory())
+            .build();
         namespace = client.getNamespace();
 
         ConfigMap cm = new ConfigMapBuilder()

@@ -15,6 +15,9 @@ import java.util.Map;
  * Apache Kafka configuration provider to load configuration from Kubernetes Config Maps
  */
 public final class KubernetesConfigMapConfigProvider extends AbstractKubernetesConfigProvider<ConfigMap, ConfigMapList, Resource<ConfigMap>> {
+    /**
+     * Calls the constructor from the super-class with the kind parameter set to ConfigMap
+     */
     public KubernetesConfigMapConfigProvider() {
         super("ConfigMap");
     }

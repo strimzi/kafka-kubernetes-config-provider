@@ -55,7 +55,7 @@ public class KubernetesSecretProviderIT {
                 .addToStringData("test-key-4", "test-value-4")
                 .build();
 
-        client.secrets().create(secret);
+        client.secrets().resource(secret).create();
     }
 
     @AfterAll

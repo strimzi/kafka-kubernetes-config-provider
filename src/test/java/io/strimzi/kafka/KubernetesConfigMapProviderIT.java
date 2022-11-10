@@ -53,7 +53,7 @@ public class KubernetesConfigMapProviderIT {
                 .addToData("test-key-3", "test-value-3")
                 .build();
 
-        client.configMaps().create(cm);
+        client.configMaps().resource(cm).create();
     }
 
     @AfterAll

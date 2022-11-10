@@ -18,6 +18,9 @@ import java.util.Map;
  * Apache Kafka configuration provider to load configuration from Kubernetes Secrets
  */
 public final class KubernetesSecretConfigProvider extends AbstractKubernetesConfigProvider<Secret, SecretList, Resource<Secret>> {
+    /**
+     * Calls the constructor from the super-class with the kind parameter set to Secret
+     */
     public KubernetesSecretConfigProvider() {
         super("Secret");
     }

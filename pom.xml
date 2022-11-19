@@ -87,6 +87,7 @@
         <kafka.version>3.3.1</kafka.version>
         <slf4j.version>1.7.36</slf4j.version>
         <fabric8-kubernetes-client.version>6.2.0</fabric8-kubernetes-client.version>
+        <okhttp.version>4.9.3</okhttp.version>
 
         <junit5.version>5.7.2</junit5.version>
         <hamcrest.version>2.2</hamcrest.version>
@@ -178,6 +179,16 @@
                     <groupId>io.fabric8</groupId>
                     <artifactId>kubernetes-model-storageclass</artifactId>
                 </exclusion>
+
+                <!-- Remove transitive dependencies brought in for okhttp 3.x -->
+                <exclusion>
+                    <groupId>com.squareup.okhttp3</groupId>
+                    <artifactId>okhttp</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.squareup.okhttp3</groupId>
+                    <artifactId>logging-interceptor</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -191,6 +202,21 @@
             <artifactId>kubernetes-httpclient-okhttp</artifactId>
             <version>${fabric8-kubernetes-client.version}</version>
         </dependency>
+
+        <!-- Override okhttp version used by fabric8 kubernetes-client -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okhttp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>logging-interceptor</artifactId>
+            <version>${okhttp.version}</version>
+        </dependency>
+
+        <!-- Tests dependencies -->
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>

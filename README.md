@@ -2,7 +2,7 @@
 [![GitHub release](https://img.shields.io/github/release/strimzi/kafka-kubernetes-config-provider.svg)](https://github.com/strimzi/kafka-kubernetes-config-provider/releases/latest)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.strimzi/kafka-kubernetes-config-provider/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.strimzi/kafka-kubernetes-config-provider)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
-[![Twitter Follow](https://img.shields.io/twitter/follow/strimziio.svg?style=social&label=Follow&style=for-the-badge)](https://twitter.com/strimziio)
+[![Twitter Follow](https://img.shields.io/twitter/follow/strimziio?style=social)](https://twitter.com/strimziio)
 
 # Kubernetes Configuration Provider for Apache Kafka®
 

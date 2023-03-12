@@ -84,9 +84,9 @@
         <maven.gpg.version>3.0.1</maven.gpg.version>
         <sonatype.nexus.staging>1.6.7</sonatype.nexus.staging>
 
-        <kafka.version>3.3.1</kafka.version>
+        <kafka.version>3.4.0</kafka.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <fabric8-kubernetes-client.version>6.2.0</fabric8-kubernetes-client.version>
+        <fabric8-kubernetes-client.version>6.5.0</fabric8-kubernetes-client.version>
 
         <junit5.version>5.7.2</junit5.version>
         <hamcrest.version>2.2</hamcrest.version>
@@ -129,10 +129,6 @@
                 <exclusion>
                     <groupId>io.fabric8</groupId>
                     <artifactId>kubernetes-model-apiextensions</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>kubernetes-model-autoscaling</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>io.fabric8</groupId>
@@ -181,10 +177,10 @@
             </exclusions>
         </dependency>
         <dependency>
-            <!-- Override for 2.13.4 pulled by Fabric8 which contains CVE-2022-42003 -->
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.13.4.1</version>
+            <!-- Override for SnakeYAML 1.33 pulled by Jackson 1.14.2 -->
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>io.fabric8</groupId>
@@ -232,7 +228,6 @@
                             <headerLocation>.checkstyle/java.header</headerLocation>
                             <suppressionsLocation>.checkstyle/suppressions.xml</suppressionsLocation>
                             <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                            <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
                             <failsOnError>true</failsOnError>
                         </configuration>

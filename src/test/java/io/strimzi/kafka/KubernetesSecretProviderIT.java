@@ -8,7 +8,6 @@ import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
-import io.fabric8.kubernetes.client.okhttp.OkHttpClientFactory;
 import org.apache.kafka.common.config.ConfigData;
 import org.apache.kafka.common.config.ConfigException;
 import org.junit.jupiter.api.AfterAll;
@@ -39,9 +38,7 @@ public class KubernetesSecretProviderIT {
         provider = new KubernetesSecretConfigProvider();
         provider.configure(emptyMap());
 
-        client = new KubernetesClientBuilder()
-            .withHttpClientFactory(new OkHttpClientFactory())
-            .build();
+        client = new KubernetesClientBuilder().build();
         namespace = client.getNamespace();
 
         Secret secret = new SecretBuilder()

@@ -124,6 +124,10 @@
             <exclusions>
                 <exclusion>
                     <groupId>io.fabric8</groupId>
+                    <artifactId>kubernetes-httpclient-okhttp</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.fabric8</groupId>
                     <artifactId>kubernetes-model-admissionregistration</artifactId>
                 </exclusion>
                 <exclusion>
@@ -177,15 +181,15 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-httpclient-jdk</artifactId>
+            <version>${fabric8-kubernetes-client.version}</version>
+        </dependency>
+        <dependency>
             <!-- Override for SnakeYAML 1.33 pulled by Jackson 1.14.2 -->
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.fabric8</groupId>
-            <artifactId>kubernetes-httpclient-okhttp</artifactId>
-            <version>${fabric8-kubernetes-client.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

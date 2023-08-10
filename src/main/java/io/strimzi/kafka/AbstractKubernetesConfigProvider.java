@@ -121,7 +121,8 @@ abstract class AbstractKubernetesConfigProvider<T extends HasMetadata, L extends
 
             return resource;
         } catch (KubernetesClientException e)   {
-            throw new ConfigException("Failed to retrieve " + kind +  " " + resourceIdentifier.getName() + " from Kubernetes namespace " + resourceIdentifier.getNamespace(), e);
+            LOG.error("Failed to retrieve " + kind +  " " + resourceIdentifier.getName() + " from Kubernetes namespace " + resourceIdentifier.getNamespace(), e);
+            throw new ConfigException("Failed to retrieve " + kind +  " " + resourceIdentifier.getName() + " from Kubernetes namespace " + resourceIdentifier.getNamespace());
         }
     }
 }

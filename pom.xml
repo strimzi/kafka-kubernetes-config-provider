@@ -86,7 +86,7 @@
 
         <kafka.version>3.5.1</kafka.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <fabric8-kubernetes-client.version>6.8.0</fabric8-kubernetes-client.version>
+        <fabric8-kubernetes-client.version>6.8.1</fabric8-kubernetes-client.version>
 
         <junit5.version>5.7.2</junit5.version>
         <hamcrest.version>2.2</hamcrest.version>
@@ -177,6 +177,18 @@
                 <exclusion>
                     <groupId>io.fabric8</groupId>
                     <artifactId>kubernetes-model-storageclass</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>kubernetes-model-gatewayapi</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>kubernetes-model-autoscaling</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>kubernetes-model-resource</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

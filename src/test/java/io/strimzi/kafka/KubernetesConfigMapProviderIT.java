@@ -45,9 +45,9 @@ public class KubernetesConfigMapProviderIT {
                     .withName(RESOURCE_NAME)
                     .withNamespace(namespace)
                 .endMetadata()
-                .addToData("test-key-1", "test-value-1")
-                .addToData("test-key-2", "test-value-2")
-                .addToData("test-key-3", "test-value-3")
+                .addToData("test.config", "test-value-1")
+                .addToData("test2.config", "test-value-2")
+                .addToData("test.properties", "test-value-3")
                 .build();
 
         client.configMaps().resource(cm).create();
@@ -65,28 +65,47 @@ public class KubernetesConfigMapProviderIT {
         Map<String, String> data = config.data();
 
         assertThat(data.size(), is(3));
-        assertThat(data.get("test-key-1"), is("test-value-1"));
-        assertThat(data.get("test-key-2"), is("test-value-2"));
-        assertThat(data.get("test-key-3"), is("test-value-3"));
+        assertThat(data.get("test.config"), is("test-value-1"));
+        assertThat(data.get("test2.config"), is("test-value-2"));
+        assertThat(data.get("test.properties"), is("test-value-3"));
     }
 
     @Test
     public void testSomeValues() {
-        ConfigData config = provider.get(namespace + "/" + RESOURCE_NAME, new HashSet<>(Arrays.asList("test-key-1", "test-key-3")));
+        ConfigData config = provider.get(namespace + "/" + RESOURCE_NAME, new HashSet<>(Arrays.asList("test.config", "test.properties", "*.config")));
         Map<String, String> data = config.data();
 
-        assertThat(data.size(), is(2));
-        assertThat(data.get("test-key-1"), is("test-value-1"));
-        assertThat(data.get("test-key-3"), is("test-value-3"));
+        assertThat(data.size(), is(3));
+        assertThat(data.get("test.config"), is("test-value-1"));
+        assertThat(data.get("test.properties"), is("test-value-3"));
+        assertThat(data.get("*.config"), is("test-value-1" + System.lineSeparator() + "test-value-2"));
     }
 
     @Test
     public void testOneValue() {
-        ConfigData config = provider.get(namespace + "/" + RESOURCE_NAME, Collections.singleton("test-key-2"));
+        ConfigData config = provider.get(namespace + "/" + RESOURCE_NAME, Collections.singleton("test2.config"));
         Map<String, String> data = config.data();
 
         assertThat(data.size(), is(1));
-        assertThat(data.get("test-key-2"), is("test-value-2"));
+        assertThat(data.get("test2.config"), is("test-value-2"));
+    }
+
+    @Test
+    public void testPatternValue() {
+        ConfigData config = provider.get(namespace + "/" + RESOURCE_NAME, Collections.singleton("*.config"));
+        Map<String, String> data = config.data();
+
+        assertThat(data.size(), is(1));
+        assertThat(data.get("*.config"), is("test-value-1" + System.lineSeparator() + "test-value-2"));
+    }
+
+    @Test
+    public void testNotMatchingPatternValue() {
+        ConfigData config = provider.get(namespace + "/" + RESOURCE_NAME, Collections.singleton("*.cfg"));
+        Map<String, String> data = config.data();
+
+        assertThat(data.size(), is(1));
+        assertThat(data.get("*.cfg"), is(""));
     }
 
     @Test
@@ -95,9 +114,9 @@ public class KubernetesConfigMapProviderIT {
         Map<String, String> data = config.data();
 
         assertThat(data.size(), is(3));
-        assertThat(data.get("test-key-1"), is("test-value-1"));
-        assertThat(data.get("test-key-2"), is("test-value-2"));
-        assertThat(data.get("test-key-3"), is("test-value-3"));
+        assertThat(data.get("test.config"), is("test-value-1"));
+        assertThat(data.get("test2.config"), is("test-value-2"));
+        assertThat(data.get("test.properties"), is("test-value-3"));
     }
 
     @Test
@@ -105,5 +124,17 @@ public class KubernetesConfigMapProviderIT {
         assertThrows(ConfigException.class, () -> provider.get(namespace + "/i-do-not-exist"));
         assertThrows(ConfigException.class, () -> provider.get("i-do-not-exist/i-do-not-exist-either"));
         assertThrows(ConfigException.class, () -> provider.get("i-do-not-exist"));
+    }
+
+    @Test
+    public void testCustomSeparator() {
+        KubernetesConfigMapConfigProvider customProvider = new KubernetesConfigMapConfigProvider();
+        customProvider.configure(Map.of("separator", ";"));
+
+        ConfigData config = customProvider.get(namespace + "/" + RESOURCE_NAME, Collections.singleton("*.config"));
+        Map<String, String> data = config.data();
+
+        assertThat(data.size(), is(1));
+        assertThat(data.get("*.config"), is("test-value-1;test-value-2"));
     }
 }

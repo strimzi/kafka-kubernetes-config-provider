@@ -172,9 +172,9 @@ The following example shows how to use it in a Kafka Consumer consuming from Apa
 
 ## Using patterns
 
-You can also use [Glob patterns](https://en.wikipedia.org/wiki/Glob_(programming)) to specify the keys in the Secret or Config Map that should be used.
-The Kubernetes Config Provider will find all fields matching the pattern and join them together into some value.
-This is useful for example when you want to load multiple certificates from a Secret into a single field.
+You can also use [Glob patterns](https://en.wikipedia.org/wiki/Glob_(programming)) to specify the keys in the Secret or ConfigMap that should be used.
+The Kubernetes Config Provider will find all fields matching the pattern and join them together into a single value.
+This is useful for example when you want to load multiple certificates from a Secret into a single configuration option.
 With an example Kubernetes Secret container multiple certificate files:
 
 ```yaml
@@ -199,11 +199,12 @@ ssl.truststore.certificates=${secrets:myproject/certificates:*.crt}
 
 By default, a new line will be used as a separator when joining the different values.
 But you can configure the separator if you want to use a different one:
-  ```properties
-  config.providers=secrets,configmaps
-  config.providers.secrets.class=io.strimzi.kafka.KubernetesSecretConfigProvider
-  config.providers.secrets.param.separator=,
-  ```
+
+```properties
+config.providers=secrets,configmaps
+config.providers.secrets.class=io.strimzi.kafka.KubernetesSecretConfigProvider
+config.providers.secrets.param.separator=,
+```
 
 ## Configuring the Kubernetes client
 

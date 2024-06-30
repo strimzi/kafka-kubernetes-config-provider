@@ -18,9 +18,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Abstract class for Kafka configuration providers using Kubernetes resources
@@ -31,10 +35,12 @@ import java.util.Set;
  */
 abstract class AbstractKubernetesConfigProvider<T extends HasMetadata, L extends KubernetesResourceList<T>, R extends Resource<T>> implements ConfigProvider {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractKubernetesConfigProvider.class);
+    private static final String SEPARATOR_CONFIG_NAME = "separator";
 
     protected final String kind;
 
     protected KubernetesClient client;
+    private String separator = System.lineSeparator();
 
     /**
      * Creates the configuration provider
@@ -58,8 +64,13 @@ abstract class AbstractKubernetesConfigProvider<T extends HasMetadata, L extends
     }
 
     @Override
-    public void configure(Map<String, ?> map) {
-        LOG.info("Configuring Kubernetes {} config provider", kind);
+    public void configure(Map<String, ?> config) {
+        LOG.info("Configuring Kubernetes {} config provider with configuration {}", kind, config);
+
+        if (config.get(SEPARATOR_CONFIG_NAME) != null) {
+            separator = (String) config.get(SEPARATOR_CONFIG_NAME);
+        }
+
         client = new KubernetesClientBuilder().build();
     }
 
@@ -88,10 +99,9 @@ abstract class AbstractKubernetesConfigProvider<T extends HasMetadata, L extends
         if (keys == null)   {
             configs.putAll(values);
         } else {
-            for (Map.Entry<String, String> entry : values.entrySet())   {
-                if (keys.contains(entry.getKey()))  {
-                    configs.put(entry.getKey(), entry.getValue());
-                }
+            for (String key : keys) {
+                PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:" + key);
+                configs.put(key, values.entrySet().stream().filter(entry -> pathMatcher.matches(Paths.get(entry.getKey()))).sorted(Map.Entry.comparingByKey()).map(Map.Entry::getValue).collect(Collectors.joining(separator)));
             }
         }
 

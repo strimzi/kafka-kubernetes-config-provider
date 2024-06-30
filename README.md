@@ -23,17 +23,17 @@ The following example shows how to use it with Kafka Connect and Connectors:
     apiVersion: kafka.strimzi.io/v1beta2
     kind: KafkaConnect
     metadata:
-      name: my-connect
-      annotations:
-        strimzi.io/use-connector-resources: "true"
+      name: my-connect
+      annotations:
+        strimzi.io/use-connector-resources: "true"
     spec:
-      # ...
-      config:
-        # ...
-        config.providers: secrets,configmaps
-        config.providers.secrets.class: io.strimzi.kafka.KubernetesSecretConfigProvider
-        config.providers.configmaps.class: io.strimzi.kafka.KubernetesConfigMapConfigProvider
-      # ...
+      # ...
+      config:
+        # ...
+        config.providers: secrets,configmaps
+        config.providers.secrets.class: io.strimzi.kafka.KubernetesSecretConfigProvider
+        config.providers.configmaps.class: io.strimzi.kafka.KubernetesConfigMapConfigProvider
+      # ...
     ```
 
 2) Create a configuration Config Map
@@ -41,10 +41,10 @@ The following example shows how to use it with Kafka Connect and Connectors:
     apiVersion: v1
     kind: ConfigMap
     metadata:
-      name: connector-configuration
+      name: connector-configuration
     data:
-      option1: value1
-      option2: value2
+      option1: value1
+      option2: value2
     ```
 
 3) Create the Role and RoleBinding:
@@ -52,26 +52,26 @@ The following example shows how to use it with Kafka Connect and Connectors:
     apiVersion: rbac.authorization.k8s.io/v1
     kind: Role
     metadata:
-      name: connector-configuration-role
+      name: connector-configuration-role
     rules:
     - apiGroups: [""]
-      resources: ["configmaps"]
-      resourceNames: ["connector-configuration"]
-      verbs: ["get"]
+      resources: ["configmaps"]
+      resourceNames: ["connector-configuration"]
+      verbs: ["get"]
     ---
 
     apiVersion: rbac.authorization.k8s.io/v1
     kind: RoleBinding
     metadata:
-      name: connector-configuration-role-binding
+      name: connector-configuration-role-binding
     subjects:
     - kind: ServiceAccount
-      name: my-connect-connect
-      namespace: myproject
+      name: my-connect-connect
+      namespace: myproject
     roleRef:
-      kind: Role
-      name: connector-configuration-role
-      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: connector-configuration-role
+      apiGroup: rbac.authorization.k8s.io
     ```
 
     Use the Service Account already used by your Kafka Connect deployment, which is named `<CLUSTER_NAME>-connect` where `<CLUSTER_NAME>` is the name of your KafkaConnect custom resource.
@@ -81,14 +81,14 @@ The following example shows how to use it with Kafka Connect and Connectors:
     apiVersion: kafka.strimzi.io/v1beta2
     kind: KafkaConnector
     metadata:
-      name: my-connector
-      labels:
-        strimzi.io/cluster: my-connect
+      name: my-connector
+      labels:
+        strimzi.io/cluster: my-connect
     spec:
-      # ...
-      config:
-        option: ${configmaps:myproject/connector-configuration:option1}
-        # ...
+      # ...
+      config:
+        option: ${configmaps:myproject/connector-configuration:option1}
+        # ...
     ```
 
 ## Adding the Kubernetes Configuration Provider to Apache Kafka clients
@@ -169,6 +169,42 @@ The following example shows how to use it in a Kafka Consumer consuming from Apa
     ssl.truststore.type=PEM
     ssl.truststore.certificates=${secrets:myproject/my-cluster-cluster-ca-cert:ca.crt}
     ```
+
+## Using patterns
+
+You can also use [Glob patterns](https://en.wikipedia.org/wiki/Glob_(programming)) to specify the keys in the Secret or ConfigMap that should be used.
+The Kubernetes Config Provider will find all fields matching the pattern and join them together into a single value.
+This is useful for example when you want to load multiple certificates from a Secret into a single configuration option.
+With an example Kubernetes Secret container multiple certificate files:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: certificates
+data:
+  ca.crt: ...
+  ca2.crt: ...
+  ca3.crt: ...
+```
+
+You can use the provider to load all of the certificates by using the key pattern `*.crt`:
+
+```properties
+config.providers=secrets
+config.providers.secrets.class=io.strimzi.kafka.KubernetesSecretConfigProvider
+...
+ssl.truststore.certificates=${secrets:myproject/certificates:*.crt}
+```
+
+By default, a new line will be used as a separator when joining the different values.
+But you can configure the separator if you want to use a different one:
+
+```properties
+config.providers=secrets,configmaps
+config.providers.secrets.class=io.strimzi.kafka.KubernetesSecretConfigProvider
+config.providers.secrets.param.separator=,
+```
 
 ## Configuring the Kubernetes client
 

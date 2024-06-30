@@ -46,10 +46,10 @@ public class KubernetesSecretProviderIT {
                     .withName(RESOURCE_NAME)
                     .withNamespace(namespace)
                 .endMetadata()
-                .addToData("test-key-1", Base64.getEncoder().encodeToString("test-value-1".getBytes()))
-                .addToData("test-key-2", Base64.getEncoder().encodeToString("test-value-2".getBytes()))
-                .addToData("test-key-3", Base64.getEncoder().encodeToString("test-value-3".getBytes()))
-                .addToStringData("test-key-4", "test-value-4")
+                .addToData("truststore.p12", Base64.getEncoder().encodeToString("pkcs12-truststore".getBytes()))
+                .addToData("ca.crt", Base64.getEncoder().encodeToString("first-ca".getBytes()))
+                .addToData("ca2.crt", Base64.getEncoder().encodeToString("second-ca".getBytes()))
+                .addToStringData("ca3.crt", "third-ca")
                 .build();
 
         client.secrets().resource(secret).create();
@@ -67,30 +67,48 @@ public class KubernetesSecretProviderIT {
         Map<String, String> data = config.data();
 
         assertThat(data.size(), is(4));
-        assertThat(data.get("test-key-1"), is("test-value-1"));
-        assertThat(data.get("test-key-2"), is("test-value-2"));
-        assertThat(data.get("test-key-3"), is("test-value-3"));
-        assertThat(data.get("test-key-4"), is("test-value-4"));
+        assertThat(data.get("ca.crt"), is("first-ca"));
+        assertThat(data.get("ca2.crt"), is("second-ca"));
+        assertThat(data.get("ca3.crt"), is("third-ca"));
+        assertThat(data.get("truststore.p12"), is("pkcs12-truststore"));
     }
 
     @Test
     public void testSomeValues() {
-        ConfigData config = provider.get(namespace + "/" + RESOURCE_NAME, new HashSet<>(Arrays.asList("test-key-1", "test-key-3", "test-key-4")));
+        ConfigData config = provider.get(namespace + "/" + RESOURCE_NAME, new HashSet<>(Arrays.asList("ca.crt", "*.crt", "truststore.p12")));
         Map<String, String> data = config.data();
 
         assertThat(data.size(), is(3));
-        assertThat(data.get("test-key-1"), is("test-value-1"));
-        assertThat(data.get("test-key-3"), is("test-value-3"));
-        assertThat(data.get("test-key-4"), is("test-value-4"));
+        assertThat(data.get("ca.crt"), is("first-ca"));
+        assertThat(data.get("*.crt"), is("first-ca" + System.lineSeparator() + "second-ca" + System.lineSeparator() + "third-ca"));
+        assertThat(data.get("truststore.p12"), is("pkcs12-truststore"));
     }
 
     @Test
     public void testOneValue() {
-        ConfigData config = provider.get(namespace + "/" + RESOURCE_NAME, Collections.singleton("test-key-2"));
+        ConfigData config = provider.get(namespace + "/" + RESOURCE_NAME, Collections.singleton("ca2.crt"));
         Map<String, String> data = config.data();
 
         assertThat(data.size(), is(1));
-        assertThat(data.get("test-key-2"), is("test-value-2"));
+        assertThat(data.get("ca2.crt"), is("second-ca"));
+    }
+
+    @Test
+    public void testPatternValue() {
+        ConfigData config = provider.get(namespace + "/" + RESOURCE_NAME, Collections.singleton("*.crt"));
+        Map<String, String> data = config.data();
+
+        assertThat(data.size(), is(1));
+        assertThat(data.get("*.crt"), is("first-ca" + System.lineSeparator() + "second-ca" + System.lineSeparator() + "third-ca"));
+    }
+
+    @Test
+    public void testNotMatchingPatternValue() {
+        ConfigData config = provider.get(namespace + "/" + RESOURCE_NAME, Collections.singleton("*.cert"));
+        Map<String, String> data = config.data();
+
+        assertThat(data.size(), is(1));
+        assertThat(data.get("*.cert"), is(""));
     }
 
     @Test
@@ -99,10 +117,10 @@ public class KubernetesSecretProviderIT {
         Map<String, String> data = config.data();
 
         assertThat(data.size(), is(4));
-        assertThat(data.get("test-key-1"), is("test-value-1"));
-        assertThat(data.get("test-key-2"), is("test-value-2"));
-        assertThat(data.get("test-key-3"), is("test-value-3"));
-        assertThat(data.get("test-key-4"), is("test-value-4"));
+        assertThat(data.get("ca.crt"), is("first-ca"));
+        assertThat(data.get("ca2.crt"), is("second-ca"));
+        assertThat(data.get("ca3.crt"), is("third-ca"));
+        assertThat(data.get("truststore.p12"), is("pkcs12-truststore"));
     }
 
     @Test
@@ -110,5 +128,17 @@ public class KubernetesSecretProviderIT {
         assertThrows(ConfigException.class, () -> provider.get(namespace + "/i-do-not-exist"));
         assertThrows(ConfigException.class, () -> provider.get("i-do-not-exist/i-do-not-exist-either"));
         assertThrows(ConfigException.class, () -> provider.get("i-do-not-exist"));
+    }
+
+    @Test
+    public void testCustomSeparator() {
+        KubernetesSecretConfigProvider customProvider = new KubernetesSecretConfigProvider();
+        customProvider.configure(Map.of("separator", ","));
+
+        ConfigData config = customProvider.get(namespace + "/" + RESOURCE_NAME, Collections.singleton("*.crt"));
+        Map<String, String> data = config.data();
+
+        assertThat(data.size(), is(1));
+        assertThat(data.get("*.crt"), is("first-ca,second-ca,third-ca"));
     }
 }

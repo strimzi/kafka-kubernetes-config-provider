@@ -65,6 +65,24 @@
             <organization>Red Hat</organization>
             <organizationUrl>https://www.redhat.com</organizationUrl>
         </developer>
+        <developer>
+            <name>Paul Mellor</name>
+            <email>pmellor@redhat.com</email>
+            <organization>Red Hat</organization>
+            <organizationUrl>https://www.redhat.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>Lukáš Král</name>
+            <email>l.kral@outlook.com</email>
+            <organization>Red Hat</organization>
+            <organizationUrl>https://www.redhat.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>Maroš Orsák</name>
+            <email>maros.orsak159@gmail.com</email>
+            <organization>Red Hat</organization>
+            <organizationUrl>https://www.redhat.com</organizationUrl>
+        </developer>
     </developers>
 
     <properties>
@@ -82,11 +100,11 @@
         <maven.jar.version>3.3.0</maven.jar.version>
         <maven.assembly.version>3.4.2</maven.assembly.version>
         <maven.gpg.version>3.0.1</maven.gpg.version>
-        <sonatype.nexus.staging>1.6.7</sonatype.nexus.staging>
+        <sonatype.nexus.staging>1.7.0</sonatype.nexus.staging>
 
-        <kafka.version>3.5.1</kafka.version>
+        <kafka.version>3.7.0</kafka.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <fabric8-kubernetes-client.version>6.8.1</fabric8-kubernetes-client.version>
+        <fabric8-kubernetes-client.version>6.13.0</fabric8-kubernetes-client.version>
 
         <junit5.version>5.7.2</junit5.version>
         <hamcrest.version>2.2</hamcrest.version>
@@ -196,12 +214,6 @@
             <groupId>io.fabric8</groupId>
             <artifactId>kubernetes-httpclient-jdk</artifactId>
             <version>${fabric8-kubernetes-client.version}</version>
-        </dependency>
-        <dependency>
-            <!-- Override for SnakeYAML 1.33 pulled by Jackson 1.14.2 -->
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

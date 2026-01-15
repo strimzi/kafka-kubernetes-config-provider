@@ -14,7 +14,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -54,7 +53,7 @@ public class KubernetesConfigMapProviderIT {
     }
 
     @AfterAll
-    public static void afterAll() throws IOException {
+    public static void afterAll() {
         client.configMaps().inNamespace(namespace).withName(RESOURCE_NAME).delete();
         provider.close();
     }

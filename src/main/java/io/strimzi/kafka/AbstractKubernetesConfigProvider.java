@@ -17,7 +17,6 @@ import org.apache.kafka.common.config.provider.ConfigProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
@@ -58,7 +57,7 @@ abstract class AbstractKubernetesConfigProvider<T extends HasMetadata, L extends
 
     // Methods from Kafka ConfigProvider
     @Override
-    public void close() throws IOException {
+    public void close() {
         LOG.info("Closing Kubernetes {} config provider", kind);
         client.close();
     }
@@ -88,7 +87,7 @@ abstract class AbstractKubernetesConfigProvider<T extends HasMetadata, L extends
      * Gets the values from the Kubernetes resource.
      *
      * @param path  Path to the Kubernetes resource
-     * @param keys  Keys which should be extracted from the resource
+     * @param keys  Keys, which should be extracted from the resource
      *
      * @return      Kafka ConfigData with the configuration
      */
@@ -131,7 +130,7 @@ abstract class AbstractKubernetesConfigProvider<T extends HasMetadata, L extends
 
             return resource;
         } catch (KubernetesClientException e)   {
-            LOG.error("Failed to retrieve " + kind +  " " + resourceIdentifier.getName() + " from Kubernetes namespace " + resourceIdentifier.getNamespace(), e);
+            LOG.error("Failed to retrieve {} {} from Kubernetes namespace {}", kind, resourceIdentifier.getName(), resourceIdentifier.getNamespace(), e);
             throw new ConfigException("Failed to retrieve " + kind +  " " + resourceIdentifier.getName() + " from Kubernetes namespace " + resourceIdentifier.getNamespace());
         }
     }

@@ -22,6 +22,11 @@ runs:
     - name: Setup Kind
       uses: strimzi/strimzi-kafka-operator/.github/actions/dependencies/setup-kind@main
 
+    # ITs require to have set default namespace in kubeconfig which is not by default with Kind
+    - name: Set default namespace
+      shell: bash
+      run: kubectl config set-context --current --namespace=default
+
     - name: Restore Maven cache
       uses: actions/cache/restore@v5
       with:

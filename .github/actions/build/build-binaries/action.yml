@@ -1,0 +1,61 @@
+name: "Build Kafka-Access-Operator Binaries"
+description: "Build and archive kafka-access-operator binaries"
+
+inputs:
+  javaVersion:
+    description: "Java version"
+    required: false
+    default: "17"
+  runnerArch:
+    description: "Architecture of GitHub runner"
+    required: false
+    default: "amd64"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Java
+      uses: strimzi/strimzi-kafka-operator/.github/actions/dependencies/setup-java@main
+      with:
+        javaVersion: ${{ inputs.javaVersion }}
+
+    - name: Setup Kind
+      uses: strimzi/strimzi-kafka-operator/.github/actions/dependencies/setup-kind@main
+
+    - name: Restore Maven cache
+      uses: actions/cache/restore@v5
+      with:
+        path: ~/.m2/repository
+        key: maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          maven-
+
+    - name: Build Java code
+      shell: bash
+      run: .azure/scripts/build.sh
+      env:
+        MVN_ARGS: "-e -V -B"
+
+    - name: Clean external SNAPSHOT dependencies from Maven repository
+      if: github.ref == 'refs/heads/main'
+      shell: bash
+      run: |
+        mvn dependency:purge-local-repository \
+        -DsnapshotsOnly=true \
+        -DreResolve=false || true
+
+    - name: Save Maven cache
+      if: github.ref == 'refs/heads/main'
+      uses: actions/cache/save@v5
+      with:
+        path: ~/.m2/repository
+        key: maven-${{ hashFiles('**/pom.xml') }}
+
+    - name: Publish test results
+      uses: dorny/test-reporter@v2
+      if: always()
+      with:
+        name: 'Unit & Integration Tests'
+        path: '**/TEST-*.xml'
+        reporter: java-junit
+        fail-on-error: false

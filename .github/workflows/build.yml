@@ -1,0 +1,58 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "main"
+      - "release-*"
+    tags:
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+
+# Declare default permissions as read only
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-kafka-kubernetes-config-provider:
+    name: Build Kafka Kubernetes Config Provider
+    strategy:
+      matrix:
+        javaVersion:
+          - "11"
+          - "17"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/build/build-binaries
+        env:
+          # The following env vars are set just to bypass current script config for all branches
+          # We will remove it in near future with removing Azure and using standard build scheme for all repos
+          BUILD_REASON: "PR"
+          BRANCH: "PR"
+        with:
+          javaVersion: ${{ matrix.javaVersion }}
+          runnerArch: "amd64"
+
+  deploy-java:
+    name: Deploy Java artifacts
+    needs:
+      - build-kafka-kubernetes-config-provider
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/build/deploy-java
+        with:
+          javaVersion: "11"
+          runnerArch: "amd64"
+          gpgPassphrase: ${{ secrets.GPG_PASSPHRASE }}
+          gpgSigningKey: ${{ secrets.GPG_SIGNING_KEY }}
+          centralUsername: ${{ secrets.CENTRAL_USERNAME }}
+          centralPassword: ${{ secrets.CENTRAL_PASSWORD }}

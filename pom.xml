@@ -110,7 +110,7 @@
 
         <kafka.version>4.1.1</kafka.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <fabric8-kubernetes-client.version>7.5.0</fabric8-kubernetes-client.version>
+        <fabric8-kubernetes-client.version>7.5.2</fabric8-kubernetes-client.version>
 
         <junit5.version>5.7.2</junit5.version>
         <hamcrest.version>2.2</hamcrest.version>
@@ -137,7 +137,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>io.fabric8</groupId>
-                    <artifactId>kubernetes-httpclient-okhttp</artifactId>
+                    <artifactId>kubernetes-httpclient-vertx</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>io.fabric8</groupId>

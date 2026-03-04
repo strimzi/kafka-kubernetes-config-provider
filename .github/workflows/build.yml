@@ -38,6 +38,15 @@ jobs:
         with:
           javaVersion: ${{ matrix.java.version }}
 
+      - name: Setup Kind cluster
+        uses: strimzi/github-actions/.github/actions/dependencies/setup-kind@main
+        with:
+          controlNodes: 1
+          workerNodes: 1
+          kindVersion: 0.31.0
+        env:
+          KIND_NODE_IMAGE: "latest"
+
       - name: Build binaries using build-binaries action
         uses: strimzi/github-actions/.github/actions/build/build-binaries@main
         with:

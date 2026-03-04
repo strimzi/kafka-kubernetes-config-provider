@@ -24,9 +24,11 @@ jobs:
     name: Build Kafka Kubernetes Config Provider
     strategy:
       matrix:
-        javaVersion:
-          - "11"
-          - "17"
+        java:
+          - version: "11"
+            mainBuild: false
+          - version: "17"
+            mainBuild: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

@@ -30,15 +30,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: ./.github/actions/build/build-binaries
-        env:
-          # The following env vars are set just to bypass current script config for all branches
-          # We will remove it in near future with removing Azure and using standard build scheme for all repos
-          BUILD_REASON: "PR"
-          BRANCH: "PR"
+
+      - name: Setup Java and Maven
+        uses: strimzi/github-actions/.github/actions/dependencies/setup-java@main
         with:
-          javaVersion: ${{ matrix.javaVersion }}
-          runnerArch: "amd64"
+          javaVersion: ${{ matrix.java.version }}
+
+      - name: Build binaries using build-binaries action
+        uses: strimzi/github-actions/.github/actions/build/build-binaries@main
+        with:
+          mainJavaBuild: ${{ matrix.java.mainBuild }}
+          artifactSuffix: "kafka-kubernetes-config-provider"
+          clusterOperatorBuild: "false"
 
   deploy-java:
     name: Deploy Java artifacts
@@ -48,10 +51,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: ./.github/actions/build/deploy-java
+
+      - name: Setup Java and Maven
+        uses: strimzi/github-actions/.github/actions/dependencies/setup-java@main
         with:
-          javaVersion: "11"
-          runnerArch: "amd64"
+          javaVersion: "17"
+
+      - name: Deploy to Maven Central
+        uses: strimzi/github-actions/.github/actions/build/deploy-java@main
+        with:
+          modules: "./"
           gpgPassphrase: ${{ secrets.GPG_PASSPHRASE }}
           gpgSigningKey: ${{ secrets.GPG_SIGNING_KEY }}
           centralUsername: ${{ secrets.CENTRAL_USERNAME }}

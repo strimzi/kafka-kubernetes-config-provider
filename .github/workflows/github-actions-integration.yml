@@ -1,4 +1,4 @@
-name: Test github-actions integration
+name: GitHub Actions Integration
 
 on:
   pull_request:
@@ -12,7 +12,7 @@ on:
       - "*"
   push:
     branches:
-      - "main"
+      - "*"
 
 permissions:
   contents: read

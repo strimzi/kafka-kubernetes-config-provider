@@ -1,0 +1,44 @@
+name: Test github-actions integration
+
+on:
+  pull_request:
+    paths:
+      - 'pom.xml'
+      - 'Makefile'
+      - 'Makefile.maven'
+      - 'Makefile.os'
+      - '.github/workflows/github-actions-integration.yml'
+    branches:
+      - "*"
+  push:
+    branches:
+      - "main"
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-github-actions-integration:
+    # TODO - change ref once we will have released version
+    uses: strimzi/github-actions/.github/workflows/reusable-test-integrations.yml@main
+    with:
+      repo: ${{ github.repository }}
+      ref: ${{ github.sha }}
+      architecture: "amd64"
+      artifactSuffix: "kafka-bridge"
+      buildContainers: true
+      modules: "./"
+      nexusCheck: "kafka-bridge"
+      javaVersion: "17"
+      helmChartName: "none"
+      releaseVersion: "6.6.6"
+      imagesDir: "kafka-bridge-amd64.tar.gz"
+      clusterOperatorBuild: false
+      # TODO - change ref once we will have released version
+      githubActionsRef: "main"
+    secrets: inherit

@@ -28,7 +28,7 @@ jobs:
     uses: strimzi/github-actions/.github/workflows/reusable-test-integrations.yml@main
     with:
       repo: ${{ github.repository }}
-#      ref: ${{ github.sha }}
+      ref: ${{ github.sha }}
       architecture: "amd64"
       artifactSuffix: "kafka-bridge"
       buildContainers: true
@@ -40,5 +40,5 @@ jobs:
       imagesDir: "kafka-bridge-amd64.tar.gz"
       clusterOperatorBuild: false
       # TODO - change ref once we will have released version
-#      githubActionsRef: "main"
+      githubActionsRef: "main"
     secrets: inherit

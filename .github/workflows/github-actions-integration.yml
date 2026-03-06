@@ -30,14 +30,14 @@ jobs:
       repo: ${{ github.repository }}
       ref: ${{ github.sha }}
       architecture: "amd64"
-      artifactSuffix: "kafka-bridge"
+      artifactSuffix: "kafka-kubernetes-config-provider"
       buildContainers: true
       modules: "./"
-      nexusCheck: "kafka-bridge"
+      nexusCheck: "kafka-kubernetes-config-provider"
       javaVersion: "17"
       helmChartName: "none"
       releaseVersion: "6.6.6"
-      imagesDir: "kafka-bridge-amd64.tar.gz"
+      imagesDir: "none"
       clusterOperatorBuild: false
       # TODO - change ref once we will have released version
       githubActionsRef: "main"

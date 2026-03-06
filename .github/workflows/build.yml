@@ -47,6 +47,11 @@ jobs:
         env:
           KIND_NODE_IMAGE: "latest"
 
+      # ITs requires to have set default namespace in kubeconfig which is not by default with Kind
+      - name: Set default namespace
+        shell: bash
+        run: kubectl config set-context --current --namespace=default
+
       - name: Build binaries using build-binaries action
         uses: strimzi/github-actions/.github/actions/build/build-binaries@main
         with:

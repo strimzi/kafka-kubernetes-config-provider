@@ -10,9 +10,6 @@ on:
       - '.github/workflows/github-actions-integration.yml'
     branches:
       - "*"
-  push:
-    branches:
-      - "main"
 
 permissions:
   contents: read

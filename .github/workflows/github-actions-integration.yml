@@ -31,7 +31,7 @@ jobs:
       ref: ${{ github.sha }}
       architecture: "amd64"
       artifactSuffix: "kafka-kubernetes-config-provider"
-      buildContainers: true
+      buildContainers: false
       modules: "./"
       nexusCheck: "kafka-kubernetes-config-provider"
       javaVersion: "17"

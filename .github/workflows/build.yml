@@ -34,12 +34,12 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Setup Java and Maven
-        uses: strimzi/github-actions/.github/actions/dependencies/setup-java@main
+        uses: strimzi/github-actions/.github/actions/dependencies/setup-java@v1
         with:
           javaVersion: ${{ matrix.java.version }}
 
       - name: Setup Kind cluster
-        uses: strimzi/github-actions/.github/actions/dependencies/setup-kind@main
+        uses: strimzi/github-actions/.github/actions/dependencies/setup-kind@v1
         with:
           controlNodes: 1
           workerNodes: 1
@@ -53,7 +53,7 @@ jobs:
         run: kubectl config set-context --current --namespace=default
 
       - name: Build binaries using build-binaries action
-        uses: strimzi/github-actions/.github/actions/build/build-binaries@main
+        uses: strimzi/github-actions/.github/actions/build/build-binaries@v1
         with:
           mainJavaBuild: ${{ matrix.java.mainBuild }}
           artifactSuffix: "kafka-kubernetes-config-provider"
@@ -69,12 +69,12 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Setup Java and Maven
-        uses: strimzi/github-actions/.github/actions/dependencies/setup-java@main
+        uses: strimzi/github-actions/.github/actions/dependencies/setup-java@v1
         with:
           javaVersion: "17"
 
       - name: Deploy to Maven Central
-        uses: strimzi/github-actions/.github/actions/build/deploy-java@main
+        uses: strimzi/github-actions/.github/actions/build/deploy-java@v1
         with:
           modules: "./"
           gpgPassphrase: ${{ secrets.GPG_PASSPHRASE }}

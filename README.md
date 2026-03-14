@@ -1,4 +1,4 @@
-[![Build Status](https://dev.azure.com/cncf/strimzi/_apis/build/status/kafka-kubernetes-config-provider?branchName=main)](https://dev.azure.com/cncf/strimzi/_build/latest?definitionId=32&branchName=main)
+[![Build Status](https://github.com/strimzi/kafka-kubernetes-config-provider/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/strimzi/kafka-kubernetes-config-provider/actions/workflows/build.yml?query=branch%3Amain)
 [![GitHub release](https://img.shields.io/github/release/strimzi/kafka-kubernetes-config-provider.svg)](https://github.com/strimzi/kafka-kubernetes-config-provider/releases/latest)
 [![Maven Central Version](https://img.shields.io/maven-central/v/io.strimzi/kafka-kubernetes-config-provider)](https://mvnrepository.com/artifact/io.strimzi/kafka-kubernetes-config-provider)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)

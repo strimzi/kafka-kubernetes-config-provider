@@ -26,9 +26,9 @@ jobs:
       matrix:
         java:
           - version: "17"
-            mainBuild: false
-          - version: "21"
             mainBuild: true
+          - version: "21"
+            mainBuild: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

@@ -25,9 +25,9 @@ jobs:
     strategy:
       matrix:
         java:
-          - version: "11"
-            mainBuild: false
           - version: "17"
+            mainBuild: false
+          - version: "21"
             mainBuild: true
     runs-on: ubuntu-latest
     steps:

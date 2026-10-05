@@ -25,10 +25,8 @@ jobs:
     strategy:
       matrix:
         java:
-          - version: "17"
-            mainBuild: true
           - version: "21"
-            mainBuild: false
+            mainBuild: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

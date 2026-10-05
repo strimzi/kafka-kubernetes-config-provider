@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   test-github-actions-integration:
-    uses: strimzi/github-actions/.github/workflows/reusable-test-integrations.yml@v1
+    uses: strimzi/github-actions/.github/workflows/reusable-test-integrations.yml@v2
     with:
       repo: ${{ github.repository }}
       ref: ${{ github.sha }}
@@ -30,10 +30,10 @@ jobs:
       buildContainers: false
       modules: "./"
       nexusCheck: "kafka-kubernetes-config-provider"
-      javaVersion: "17"
+      javaVersion: "21"
       helmChartName: "none"
       releaseVersion: "6.6.6"
       imagesDir: "none"
       clusterOperatorBuild: false
-      githubActionsRef: "v1"
+      githubActionsRef: "v2"
     secrets: inherit

@@ -33,7 +33,7 @@ jobs:
       javaVersion: "21"
       helmChartName: "none"
       releaseVersion: "6.6.6"
-      imagesDir: "none"
+      imagesLocation: "none"
       clusterOperatorBuild: false
       githubActionsRef: "v2.3"
     secrets: inherit

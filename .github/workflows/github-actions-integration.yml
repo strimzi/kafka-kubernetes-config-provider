@@ -14,6 +14,7 @@ on:
 permissions:
   contents: read
   id-token: write
+  attestations: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -21,7 +22,7 @@ concurrency:
 
 jobs:
   test-github-actions-integration:
-    uses: strimzi/github-actions/.github/workflows/reusable-test-integrations.yml@52b17c19f3687e37b47c9c64696b96f28f53625b # v2.3
+    uses: strimzi/github-actions/.github/workflows/reusable-test-integrations.yml@8a88edc07beb03fbd99d6d72f59c86d7d7aadda4 # v3.0
     with:
       repo: ${{ github.repository }}
       ref: ${{ github.sha }}
@@ -33,7 +34,7 @@ jobs:
       javaVersion: "21"
       helmChartName: "none"
       releaseVersion: "6.6.6"
-      imagesDir: "none"
+      imagesLocation: "none"
       clusterOperatorBuild: false
-      githubActionsRef: "v2"
+      githubActionsRef: "v3.0"
     secrets: inherit

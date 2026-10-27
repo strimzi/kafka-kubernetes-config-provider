@@ -21,18 +21,18 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Java and Maven
-        uses: strimzi/github-actions/.github/actions/dependencies/setup-java@52b17c19f3687e37b47c9c64696b96f28f53625b # v2.3
+        uses: strimzi/github-actions/.github/actions/dependencies/setup-java@8a88edc07beb03fbd99d6d72f59c86d7d7aadda4 # v3.0
         with:
           javaVersion: "21"
 
       - name: Prepare release artifacts
-        uses: strimzi/github-actions/.github/actions/build/release-artifacts@52b17c19f3687e37b47c9c64696b96f28f53625b # v2.3
+        uses: strimzi/github-actions/.github/actions/build/release-artifacts@8a88edc07beb03fbd99d6d72f59c86d7d7aadda4 # v3.0
         with:
           releaseVersion: ${{ inputs.releaseVersion }}
           artifactSuffix: "kafka-kubernetes-config-provider"
 
       - name: Deploy to Maven Central
-        uses: strimzi/github-actions/.github/actions/build/deploy-java@52b17c19f3687e37b47c9c64696b96f28f53625b # v2.3
+        uses: strimzi/github-actions/.github/actions/build/deploy-java@8a88edc07beb03fbd99d6d72f59c86d7d7aadda4 # v3.0
         with:
           modules: "./"
           gpgPassphrase: ${{ secrets.GPG_PASSPHRASE }}

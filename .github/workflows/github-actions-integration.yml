@@ -35,5 +35,5 @@ jobs:
       releaseVersion: "6.6.6"
       imagesDir: "none"
       clusterOperatorBuild: false
-      githubActionsRef: "v2"
+      githubActionsRef: "v2.3"
     secrets: inherit

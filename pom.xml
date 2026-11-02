@@ -52,6 +52,7 @@
         <maven.jar.version>3.3.0</maven.jar.version>
         <maven.assembly.version>3.4.2</maven.assembly.version>
         <maven.gpg.version>3.0.1</maven.gpg.version>
+        <maven.dependency.version>3.9.0</maven.dependency.version>
         <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
 
         <kafka.version>4.3.1</kafka.version>
@@ -153,19 +154,23 @@
         </dependency>
         <dependency>
             <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-client-api</artifactId>
+            <version>${fabric8-kubernetes-client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-model-core</artifactId>
+            <version>${fabric8-kubernetes-client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.fabric8</groupId>
             <artifactId>kubernetes-httpclient-jdk</artifactId>
             <version>${fabric8-kubernetes-client.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
-            <version>${hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -221,6 +226,27 @@
                             <goal>integration-test</goal>
                             <goal>verify</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven.dependency.version}</version>
+                <executions>
+                    <execution>
+                        <id>analyze</id>
+                        <goals>
+                            <goal>analyze-only</goal>
+                        </goals>
+                        <configuration>
+                            <failOnWarning>true</failOnWarning>
+                                <ignoredUnusedDeclaredDependencies>
+                                    <!-- Fabric8 Kubernetes Client and HttpClient are required but not used directly from our code -->
+                                    <ignoredUnusedDeclaredDependency>io.fabric8:kubernetes-client</ignoredUnusedDeclaredDependency>
+                                    <ignoredUnusedDeclaredDependency>io.fabric8:kubernetes-httpclient-jdk</ignoredUnusedDeclaredDependency>
+                                </ignoredUnusedDeclaredDependencies>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

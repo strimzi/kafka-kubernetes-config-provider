@@ -86,6 +86,13 @@
                     <groupId>io.fabric8</groupId>
                     <artifactId>kubernetes-httpclient-vertx-5</artifactId>
                 </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-client-api</artifactId>
+            <version>${fabric8-kubernetes-client.version}</version>
+            <exclusions>
                 <exclusion>
                     <groupId>io.fabric8</groupId>
                     <artifactId>kubernetes-model-admissionregistration</artifactId>
@@ -151,11 +158,6 @@
                     <artifactId>kubernetes-model-resource</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.fabric8</groupId>
-            <artifactId>kubernetes-client-api</artifactId>
-            <version>${fabric8-kubernetes-client.version}</version>
         </dependency>
         <dependency>
             <groupId>io.fabric8</groupId>

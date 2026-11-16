@@ -42,6 +42,6 @@ jobs:
       nexusCheck: "kafka-kubernetes-config-provider"
       javaVersion: "21"
       helmChartName: "none"
-      releaseVersion: "6.6.6"q
+      releaseVersion: "6.6.6"
       imagesLocation: "none"
     secrets: inherit

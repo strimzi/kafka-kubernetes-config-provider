@@ -3,6 +3,7 @@
 [![Maven Central Version](https://img.shields.io/maven-central/v/io.strimzi/kafka-kubernetes-config-provider)](https://mvnrepository.com/artifact/io.strimzi/kafka-kubernetes-config-provider)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Twitter Follow](https://img.shields.io/twitter/follow/strimziio?style=social)](https://twitter.com/strimziio)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fstrimzi%2Fkafka-kubernetes-config-provider.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fstrimzi%2Fkafka-kubernetes-config-provider?ref=badge_shield)
 
 # Kubernetes Configuration Provider for Apache Kafka®
 
@@ -247,3 +248,7 @@ You can use it to verify the archive without querying the GitHub Attestation API
 ```
 gh attestation verify kafka-kubernetes-config-provider-<version>.tar.gz --bundle release-<version>.intoto.jsonl --repo strimzi/kafka-kubernetes-config-provider --signer-repo strimzi/github-actions
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fstrimzi%2Fkafka-kubernetes-config-provider.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fstrimzi%2Fkafka-kubernetes-config-provider?ref=badge_large)
